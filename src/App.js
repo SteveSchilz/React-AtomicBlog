@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 
-import { PostContext, PostProvider } from "./Components/PostContext";
+import { usePosts, PostProvider } from "./Components/PostContext";
 
 function createRandomPost() {
   return {
@@ -52,7 +52,7 @@ function Header() {
    *   We pass the entire context to useContext, not PostContext.Provider or .Consumer
    *   We don't need a useContext statements in places where we were only prop-drilling.
    */
-  const { onClearPosts } = useContext(PostContext);
+  const { onClearPosts } = usePosts();
   return (
     <header>
       <h1>
@@ -68,7 +68,7 @@ function Header() {
 }
 
 function SearchPosts() {
-  const { searchQuery, setSearchQuery } = useContext(PostContext);
+  const { searchQuery, setSearchQuery } = usePosts();
   return (
     <input
       value={searchQuery}
@@ -79,7 +79,7 @@ function SearchPosts() {
 }
 
 function Results() {
-  const { posts } = useContext(PostContext);
+  const { posts } = usePosts();
   return <p>🚀 {posts.length} atomic posts found</p>;
 }
 
@@ -103,7 +103,7 @@ function Posts() {
 function FormAddPost() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const { onAddPost } = useContext(PostContext);
+  const { onAddPost } = usePosts();
 
   const handleSubmit = function (e) {
     e.preventDefault();
@@ -131,7 +131,7 @@ function FormAddPost() {
 }
 
 function List() {
-  const { posts } = useContext(PostContext);
+  const { posts } = usePosts();
   return (
     <ul>
       {posts.map((post, i) => (
@@ -145,7 +145,7 @@ function List() {
 }
 
 function Archive() {
-  const { onAddPost } = useContext(PostContext);
+  const { onAddPost } = usePosts();
 
   // Here we don't need the setter function. We're only using state to store these posts because
   // the callback function passed into useState (which generates the posts) is only called once,

@@ -51,4 +51,13 @@ function PostProvider({ children }) {
     </PostContext.Provider>
   );
 }
-export { PostContext, PostProvider };
+
+function usePosts() {
+  const context = useContext(PostContext);
+  if (context === undefined) {
+    throw new Error("Attempt to usePoasts outside of PoatProvider");
+  }
+  return context;
+}
+
+export { usePosts, PostProvider };
